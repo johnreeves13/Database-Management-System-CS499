@@ -1,0 +1,78 @@
+<!--DOCTYPE html -->
+<!-- 
+
+Filename: invoices-result.html
+
+Author: John Reeves, Derek King
+
+Completion Date: 4-10-16
+
+Description: This is the results page for a query from the home page on the invoices table. Below,
+this page will display the table and place the values in text boxes. Those textboxes can be edited,
+and when the user clicks update, the javascript will execute and allow django to access those new values
+and update them in the database.
+
+ -->
+<html>
+    <head>
+        <script type="text/javascript">
+            function getValues(){
+                var arr = new Array(); //make an array
+                arr = document.getElementsByName('data_from_table'); //get all of the textboxs that were populated below using django
+                var newArr = new Array(); //make an array that we will transfer back to django with user edits
+                for(var i = 0; i < arr.length; i=i+5) //for all the elements in the array (skipping 5 at a time since there are 5 text boxes per row)
+                {
+                    newArr.push([arr[i].value, arr[i+1].value, arr[i+2].value, arr[i+3].value, arr[i+4].value]); //push the value of that row on to the array
+                }
+				//after building this array, convert it to JSON to decode in django/python and pass it along with an HTTP POST
+                document.getElementById('list').value = JSON.stringify(newArr);
+                $.post('/search/', newArr);
+            }
+        </script>
+    </head>
+
+    <body>
+        <h1>
+            <img src="http://correctcare.com/files/9213/9612/5126/footer-brand.png" alt="CorrectCare logo" style="width:800px;height:110px;">
+        </h1></br><b><font color="red">{{ error }}</font></b></br></br>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" value="Go Back" name='goBack'>Go Back</button>
+            <button type="submit" value="Update" name='update_invoices' onclick="getValues()">Update</button>
+			<input type="text" id="list" name="list" style="display:none">
+            </br>
+        </form>
+        
+        <form method="get">
+            <table border="1">
+                <thead>
+                    <tr> <!-- add all 5 table headers for the invoices table -->
+                        <th>grpno</th>
+                        <th>locno</th>
+                        <th>ppono</th>
+                        <th>ppo_method</th>
+                        <th>ppo_charge</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <ul> <!-- in the body of the table, loop through the table data provided by django, it is a 2-D array so nested for loops are required -->
+                            {% for table in table_data %}
+                            <tr>
+                                {% for data in table %} <!-- for each row, print its value in a textbox unless its the first, second, or third column in that row, in which case make that text box readonly per database constraints -->
+                                    {% if forloop.counter0 == 0 or forloop.counter0 == 1 or forloop.counter0 == 2 %}
+                                    <td align="center"><input type= "text" name="data_from_table" value={{ data }} readonly></td>
+                                    {% else %}
+                                    <td><input type= "text" name="data_from_table" value="{{ data }}"></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </ul>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        
+    </body>
+</html>

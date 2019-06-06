@@ -1,0 +1,87 @@
+<!--DOCTYPE html -->
+<!-- 
+
+Filename: index.html
+
+Author: John Reeves
+
+Completion Date: 4-10-16
+
+Description: This is the home page of our Django web interface. It allows the user to perform
+searches on the tables in the database. Currently, it will only work if the user is searching for
+information in a single table.
+
+ -->
+<html>
+	<body>
+		<h1>
+			<img src="http://correctcare.com/files/9213/9612/5126/footer-brand.png" alt="CorrectCare logo" style="width:800px;height:110px;">
+			<!--This {{ title }} is working!--> <!-- Keeping these for debugging purposes-->
+			<style>
+				li{
+					list-style-type:none;
+				}
+			</style>
+		</h1></br></br>
+		<b><font color="red">{{ error }}</font></b></br></br>
+		
+		<!-- Below are a series of text boxes for each of the four tables that the user can search within. Some of those tables offer multiple ways
+			to search within them, such as client (search be location or group number). The textboxes are linked to django and when search is clicked
+			the approriate queries and redirections will happen. Also, the user can search for a total in the invoices per our customer's request-->
+		
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="fieldWrapper">
+				Client:
+				<!--{{ form.client_group_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="client_group_number"></label>
+				{{ form.client_group_number }}
+				<!--{{ form.client_location_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="client_location_number"></label>
+				{{ form.client_location_number }}
+			</div>
+			</p>&nbsp;&nbsp;&nbsp;or</p>
+			<div class="fieldWrapper">
+				PPO:
+				<!--{{ form.ppo_ppo_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="ppo_ppo_number"></label>
+				{{ form.ppo_ppo_number }}
+			</div>
+			</p>&nbsp;&nbsp;&nbsp;or</p>
+			<div class="fieldWrapper">
+				Claims:
+				<!--{{ form.claim_prefix.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="claim_prefix"></label>
+				{{ form.claim_prefix }}
+				<!--{{ form.claim_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="claim_number"></label>
+				{{ form.claim_number }}
+				<!--{{ form.claim_suffix.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="claim_suffix"></label>
+				{{ form.claim_suffix }}
+			</div>
+			</p>&nbsp;&nbsp;&nbsp;or</p>
+			<div class="fieldWrapper">
+				Invoices:
+				<!--{{ form.invoice_group_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="invoice_group_number"></label>
+				{{ form.invoice_group_number }}
+				<!--{{ form.invoice_location_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="invoice_location_number"></label>
+				{{ form.invoice_location_number }}
+				<!--{{ form.invoice_ppo_number.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="invoice_ppo_number"></label>
+				{{ form.invoice_ppo_number }}
+			</div>
+			</p>&nbsp;&nbsp;&nbsp;or</p>
+			<div class="fieldWrapper">
+				Find Total:
+				<!--{{ form.total_invoice_id.errors }}--> <!-- Keeping these for debugging purposes-->
+				<label for ="total_invoice_id"></label>
+				{{ form.total_invoice_id }}
+			</div>
+			</p>
+			<input type="submit" value="Submit" />
+		</form>
+	</body>
+</html>

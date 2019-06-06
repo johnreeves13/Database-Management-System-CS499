@@ -1,0 +1,55 @@
+<!--DOCTYPE html -->
+<!-- 
+
+Filename: total_cost_result.html
+
+Author: John Reeves, Derek King
+
+Completion Date: 4-10-16
+
+Description: This is the results page for a query from the home page on the client table. Below,
+this page will display the table and place the values in text boxes. Those textboxes can be edited,
+and when the user clicks update, the javascript will execute and allow django to access those new values
+and update them in the database. This page is still in development.
+
+ -->
+<html>
+    <body>
+        <h1>
+            <img src="http://correctcare.com/files/9213/9612/5126/footer-brand.png" alt="CorrectCare logo" style="width:800px;height:110px;">
+                </h1></br></br>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" value="Update" name='update'>Go Back</button>
+            </br>
+        </form>
+        
+        <form method="get">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Invoice ID</th>
+                        <th>Claim Charge</th>
+                        <th>PPO Charge</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <ul>
+                            {% for table in table_data %}
+                            <tr>
+                                <td>{{ invoice_id }}</td>
+                                {% for data in table %}
+                                <td>{{ data }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </ul>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        
+    </body>
+</html>
